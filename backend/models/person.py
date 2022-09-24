@@ -16,3 +16,6 @@ class Person(db.Model):
         "polymorphic_identity": "person",
         "polymorphic_on": type,
     }
+
+    def verify_cpf(self):
+        return re.fullmatch("\d{3}[.]\d{3}[.]\d{3}[-]\d{2}", self.cpf)

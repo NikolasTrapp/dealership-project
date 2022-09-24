@@ -1,4 +1,7 @@
 from geral.config import *
+# from models.customer import Customer
+from models.employee import Employee
+from models.vehicle import Vehicle
 
 
 class Sales(db.Model):

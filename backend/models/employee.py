@@ -1,4 +1,5 @@
 from models.person import Person
+# from models.sales import Sales
 from geral.config import *
 
 

@@ -1,4 +1,3 @@
-from crypt import methods
 from geral.config import *
 from models.customer import Customer
 
@@ -15,8 +14,8 @@ def list_customers():
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-@app.route("/listCustomersById/<int: id>", methods = ["GET"])
-def list_customers(id: int):
+@app.route("/listCustomersById/<int:id>", methods = ["GET"])
+def listCustomers(id: int):
     try:
         customer = db.session.query(Customer).filter_by(id = id).first()
         if customer == None:
@@ -31,18 +30,22 @@ def list_customers(id: int):
 @app.route("/addCustomer", methods = ["POST"])
 def add_customer():
     data = request.get_json(force=True)
+    print(data)
     try:
-        customer = Customer(data)
+        customer = Customer(**data)
         customer.encypt_password()
-        db.session.add(customer)
-        db.session.commit()
-        response = jsonify({"result": "ok", "details": "ok"})
+        if customer.verify_cpf() == None:
+            raise Exception("Wrong CPF pattern")
+        else:
+            db.session.add(customer)
+            db.session.commit()
+            response = jsonify({"result": "ok", "details": "ok"})
     except Exception as e:
         response = jsonify({"result": "error", "details": str(e)})
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-@app.route("/deleteCustomer/<int: id>", methods = ["DELETE"])
+@app.route("/deleteCustomer/<int:id>", methods = ["DELETE"])
 def delete_customer(id: int):
     try:
         db.session.query(Customer).filter_by(id = id).delete()
@@ -53,7 +56,7 @@ def delete_customer(id: int):
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-@app.route("/updateCustomer/<int: id>", methods = ["PUT"])
+@app.route("/updateCustomer/<int:id>", methods = ["PUT"])
 def update_customer(id: int):
     data = request.get_json(force=True)
     try:

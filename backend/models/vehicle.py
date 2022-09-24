@@ -1,5 +1,5 @@
 from geral.config import *
-from models.sales import Sales
+# from models.sales import Sales
 
 
 class Vehicle(db.Model):
