@@ -1,1 +1,1 @@
-__all__ = ["car", "customer", "employee", "motorcycle", "person", "sales"]
+__all__ = ["car", "customer", "employee", "motorcycle", "person", "sales", "vehicle"]

@@ -1,15 +1,15 @@
-from models.person import Person
 from geral.config import *
+from models.person import Person
 
 
-class Employee(Person):
-    __tablename__ = "employee"
+class Customer(Person):
+    __tablename__ = "customer"
+
 
     id = db.Column(db.Integer, db.ForeignKey("person.id"), primary_key=True)
-    salary = db.Column(db.Float, nullable = False)
 
     __mapper_args__ = {
-        "polymorphic_identity": "employee",
+        "polymorphic_identity": "customer",
     }
 
     def json(self):
@@ -20,3 +20,4 @@ class Employee(Person):
             "cpf": self.cpf,
             "emai": self.email
         }
+    
