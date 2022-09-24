@@ -1,5 +1,6 @@
 from geral.config import *
 from models.person import Person
+import bcrypt
 
 
 class Customer(Person):
@@ -7,6 +8,9 @@ class Customer(Person):
 
 
     id = db.Column(db.Integer, db.ForeignKey("person.id"), primary_key=True)
+    password = db.Column(db.String(254), nullable = False)
+
+    sales = db.relationship("Sales", back_populates="customer")
 
     __mapper_args__ = {
         "polymorphic_identity": "customer",
@@ -18,6 +22,12 @@ class Customer(Person):
             "name": self.name,
             "age": self.age,
             "cpf": self.cpf,
-            "emai": self.email
+            "email": self.email
         }
+
+    def encypt_password(self) -> None:
+        self.password = bcrypt.hashpw(self.password.encode("utf-8"), bcrypt.gensalt())
+
+    def verify_password(self, passowrd:str) -> bool:
+        return bcrypt.checkpw(passowrd.encode("utf-8"), self.password)
     

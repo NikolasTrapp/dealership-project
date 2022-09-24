@@ -8,6 +8,8 @@ class Employee(Person):
     id = db.Column(db.Integer, db.ForeignKey("person.id"), primary_key=True)
     salary = db.Column(db.Float, nullable = False)
 
+    sales = db.relationship("Sales", back_populates="employee")
+
     __mapper_args__ = {
         "polymorphic_identity": "employee",
     }
@@ -18,5 +20,5 @@ class Employee(Person):
             "name": self.name,
             "age": self.age,
             "cpf": self.cpf,
-            "emai": self.email
+            "email": self.email
         }

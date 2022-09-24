@@ -6,18 +6,24 @@ class Sales(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
 
-    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'))
+    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable = False)
     vehicle = db.relationship("Vehicle", back_populates="sales")
 
-    
-
-    '''customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable = False)
-    customer = db.relationship('Customer')
-
-    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable = False)
-    vehicle = db.relationship('Vehicle')
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable = False)
+    customer = db.relationship("Customer", back_populates="sales")
 
     employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'), nullable = False)
-    employee = db.relationship('Employee')'''
+    employee = db.relationship("Employee", back_populates="sales")
 
     value = db.Column(db.Float, nullable = False)
+    date = db.Column(db.DateTime, nullable = False)
+
+    def json(self):
+        return {
+            "id": self.id,
+            "value": self.value,
+            "date": self.date,
+            "vehicle": self.vehicle,
+            "employee": self.employee,
+            "customer": self.customer
+        }

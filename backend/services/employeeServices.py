@@ -1,0 +1,1 @@
+from geral.config import *
