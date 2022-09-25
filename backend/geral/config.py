@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)  
 
 path = os.path.dirname(os.path.abspath(__file__))
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 arquivobd = os.path.join(path, 'dealership.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///"+arquivobd
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # remover warnings

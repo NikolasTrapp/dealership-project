@@ -1,5 +1,6 @@
 from geral.config import *
 from models.vehicle import Vehicle
+# from PIL import Image
 
 @app.route("/")
 def home():
@@ -45,6 +46,19 @@ def get_image(id):
     except Exception as e:
         response = jsonify({"result":"error", "details": str(e)})
         return response
+    
+@app.route("/listVehicles", methods = ["GET"])
+def list_vehicles():
+    try:
+        vehicles = [v.json() for v in db.session.query(Vehicle).all()]
+        if len(vehicles) <= 0:
+            raise Exception("Any vehicle found!")
+        else:
+            response = jsonify({"result": "ok", "details": vehicles})
+    except Exception as e:
+        response = jsonify({"result": "error", "details": str(e)})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

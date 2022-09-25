@@ -31,5 +31,6 @@ class Vehicle(db.Model):
             "mileage": self.mileage,
             "engine_capacity": self.engine_capacity,
             "price": self.price,
-            "image_name": self.image_name
+            "image_name": self.image_name,
+            "type": self.type
         }

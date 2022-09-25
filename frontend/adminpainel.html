@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <title>Admin Painel</title>
+</head>
+
+<body>
+
+    <!-- Main navbar menu -->
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Admin Painel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Query
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" id="queryvehicles">Vehicles</a></li>
+                            <li><a class="dropdown-item" href="#" id="querycustomers">Customers</a></li>
+                            <li><a class="dropdown-item" href="#" id="querysales">Sales</a></li>
+                        </ul> 
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Add new
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#addvehicle">Vehicle</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#addcustomer">Customer</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#addsale">Sale</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Remove
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#removevehicle">Vehicle</a></li>
+                            <li><a class="dropdown-item" href="#"data-bs-toggle="modal"
+                                data-bs-target="#removecustomer">Customer</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Add vehicle modal -->
+    <div class="modal fade" id="addvehicle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="addvehicletitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addvehicletitle">Add a vehicle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return false;">
+                        <div class="d-block">
+                            <label for="vehiclename" class="">Name: </label>
+                            <input class="form-control" type="text" id="vehiclename" name="vahiclename"
+                                placeholder="Vehicle name">
+                        </div>
+                        <div class="d-block">
+                            <label for="vehiclecolor">Color: </label>
+                            <input class="form-control" type="text" id="vehiclecolor" name="vehiclecolor"
+                                placeholder="Red, Green, Black...">
+                        </div>
+                        <div class="d-block">
+                            <label for="vehicleyear">Year: </label>
+                            <input class="form-control" type="number" id="vehicleyear" name="vehicleyear"
+                                placeholder="2022">
+                        </div>
+                        <div class="d-block">
+                            <label for="vehiclemileage">Mileage: </label>
+                            <input class="form-control" type="number" id="vehiclemileage" name="vehiclemileage"
+                                placeholder="In kilometers">
+                        </div>
+                        <div class="d-block">
+                            <label for="vehicleenginecapacity">Engine capacity: </label>
+                            <input class="form-control" type="number" id="vehicleenginecapacity"
+                                name="vehicleenginecapacity" placeholder="Horsepower or Cilindradas">
+                        </div>
+                        <div class="d-block">
+                            <label for="vehicleprice">Price: </label>
+                            <input class="form-control" type="number" step="0.01" id="vehicleprice" name="vehicleprice"
+                                placeholder="Ex: 25000.00">
+                        </div>
+                        <div class="d-block">
+                            <label for="vehicleimage">Image: </label>
+                            <input class="form-control" type="file" id="vehicleimage" name="vehicleimage">
+                        </div>
+                        <div class="d-block">
+                            <label for="vehicletype">Type: </label>
+                            <select class="form-control" name="vehicletype" id="vehicletype">
+                                <option value="Car" selected>Car</option>
+                                <option value="Motorcycle">Motorcycle</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendvehicle">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add customer modal -->
+    <div class="modal fade" id="addcustomer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="addcustomertitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addcustomertitle">Add customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return false;">
+                        <div class="d-block">
+                            <label for="customername">Name: </label>
+                            <input type="text" placeholder="Name" class="form-control" id="customername"
+                                name="customername">
+                        </div>
+                        <div class="d-block">
+                            <label for="customerage">Age: </label>
+                            <input type="number" placeholder="45" class="form-control" id="customerage"
+                                name="customerage">
+                        </div>
+                        <div class="d-block">
+                            <label for="customercpf">CPF: </label>
+                            <input type="text" placeholder="999.999.999-99" class="form-control" id="customercpf"
+                                name="customercpf">
+                        </div>
+                        <div class="d-block">
+                            <label for="customercpf">Email: </label>
+                            <input type="email" placeholder="customername@gmail.com" class="form-control"
+                                id="customercpf" name="customercpf">
+                        </div>
+                        <div class="d-block">
+                            <label for="customerpassword">Password: </label>
+                            <input type="email" placeholder="super secret password" class="form-control"
+                                id="customerpassword" name="customerpassword">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendcustomer">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add new sale modal -->
+    <div class="modal fade" id="addsale" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="addsaletitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addsaletitle">Register a sale :D</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return false;">
+                        <div class="d-block">
+                            <label for="selectvehicle">Select a vehicle: </label>
+                            <select name="selectvehicle" id="selectvehicle">
+
+                            </select>
+                        </div>
+                        <div class="d-block">
+                            <label for="selectemployee">Employee name:</label>
+                            <select name="selectemployee" id="selectemployee">
+
+                            </select>
+                        </div>
+                        <div class="d-block">
+                            <label for="selectcustomer">Buyer:</label>
+                            <select name="selectcustomer" id="selectcustomer">
+
+                            </select>
+                        </div>
+                        <div class="d-block">
+                            <label for="salevalue">Sale value:</label>
+                            <input class="form-control" type="number" step="0.01" id="vehicleprice" name="vehicleprice"
+                                placeholder="Ex: 25000.00">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendsale">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remove a vehicle modal -->
+    <div class="modal fade" id="removevehicle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="removevehicletitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removevehicletitle">Remove a vehicle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return false;">
+                        <div class="d-block">
+                            <label for="selectvehicle-remove">Select a vehicle to remove: </label>
+                            <select name="selectvehicle-remove" id="selectvehicle-remove">
+
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendsale">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remove a customer modal -->
+    <div class="modal fade" id="removecustomer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="removecustomertitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removecustomertitle">Remove a customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return false;">
+                        <div class="d-block">
+                            <label for="selectcustomer-remove">Select a customer to remove: </label>
+                            <select name="selectcustomer-remove" id="selectcustomer-remove">
+
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendsale">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-2.14.0.min.js'></script>
+    <script src="static/js/adminpainel.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

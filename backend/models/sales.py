@@ -19,14 +19,14 @@ class Sales(db.Model):
     employee = db.relationship("Employee", back_populates="sales")
 
     value = db.Column(db.Float, nullable = False)
-    date = db.Column(db.DateTime, nullable = False)
+    date = db.Column(db.Date, nullable = False)
 
     def json(self):
         return {
             "id": self.id,
             "value": self.value,
             "date": self.date,
-            "vehicle": self.vehicle,
-            "employee": self.employee,
-            "customer": self.customer
+            "vehicle": self.vehicle.id,
+            "employee": self.employee.id,
+            "customer": self.customer.id
         }
