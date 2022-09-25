@@ -29,6 +29,7 @@ def listCars(id: int):
 
 @app.route("/addCar", methods = ["POST"])
 def add_car():
+    print("Oi")
     data = request.get_json(force=True)
     try:
         car = Car(**data)

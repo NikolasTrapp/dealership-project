@@ -31,7 +31,7 @@
                             <li><a class="dropdown-item" href="#" id="queryvehicles">Vehicles</a></li>
                             <li><a class="dropdown-item" href="#" id="querycustomers">Customers</a></li>
                             <li><a class="dropdown-item" href="#" id="querysales">Sales</a></li>
-                        </ul> 
+                        </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -44,7 +44,7 @@
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                                     data-bs-target="#addcustomer">Customer</a></li>
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                data-bs-target="#addsale">Sale</a></li>
+                                    data-bs-target="#addsale">Sale</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -54,9 +54,9 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                data-bs-target="#removevehicle">Vehicle</a></li>
-                            <li><a class="dropdown-item" href="#"data-bs-toggle="modal"
-                                data-bs-target="#removecustomer">Customer</a></li>
+                                    data-bs-target="#removevehicle">Vehicle</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#removecustomer">Customer</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -74,42 +74,42 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form onsubmit="return false;">
-                        <div class="d-block">
-                            <label for="vehiclename" class="">Name: </label>
-                            <input class="form-control" type="text" id="vehiclename" name="vahiclename"
-                                placeholder="Vehicle name">
+                    <form onsubmit="return false;" id="vehicleform" enctype="multipart/form-data">
+                        <div class="d-block form-group">
+                            <label for="vehicleimage">Image: </label>
+                            <input class="form-control" type="file" id="vehicleimage" name="image" accept=".jpg, .jpeg, .png">
                         </div>
-                        <div class="d-block">
+                        <div class="d-block form-group">
+                            <label for="vehiclename" class="">Name: </label>
+                            <input class="form-control" type="add" id="vehiclename" name="vahiclename"
+                                placeholder="Vehicle name" value="Fusca">
+                        </div>
+                        <div class="d-block form-group">
                             <label for="vehiclecolor">Color: </label>
                             <input class="form-control" type="text" id="vehiclecolor" name="vehiclecolor"
-                                placeholder="Red, Green, Black...">
+                                placeholder="Red, Green, Black..." value="Preto">
                         </div>
-                        <div class="d-block">
+                        <div class="d-block form-group">
                             <label for="vehicleyear">Year: </label>
                             <input class="form-control" type="number" id="vehicleyear" name="vehicleyear"
-                                placeholder="2022">
+                                placeholder="2022" value="2020">
                         </div>
-                        <div class="d-block">
+                        <div class="d-block form-group">
                             <label for="vehiclemileage">Mileage: </label>
                             <input class="form-control" type="number" id="vehiclemileage" name="vehiclemileage"
-                                placeholder="In kilometers">
+                                placeholder="In kilometers" value="25">
                         </div>
-                        <div class="d-block">
+                        <div class="d-block form-group">
                             <label for="vehicleenginecapacity">Engine capacity: </label>
                             <input class="form-control" type="number" id="vehicleenginecapacity"
-                                name="vehicleenginecapacity" placeholder="Horsepower or Cilindradas">
+                                name="vehicleenginecapacity" placeholder="Horsepower or Cilindradas" value="500">
                         </div>
-                        <div class="d-block">
+                        <div class="d-block form-group">
                             <label for="vehicleprice">Price: </label>
                             <input class="form-control" type="number" step="0.01" id="vehicleprice" name="vehicleprice"
-                                placeholder="Ex: 25000.00">
+                                placeholder="Ex: 25000.00" value="15900">
                         </div>
-                        <div class="d-block">
-                            <label for="vehicleimage">Image: </label>
-                            <input class="form-control" type="file" id="vehicleimage" name="vehicleimage">
-                        </div>
-                        <div class="d-block">
+                        <div class="d-block form-group">
                             <label for="vehicletype">Type: </label>
                             <select class="form-control" name="vehicletype" id="vehicletype">
                                 <option value="Car" selected>Car</option>
@@ -148,14 +148,24 @@
                                 name="customerage">
                         </div>
                         <div class="d-block">
+                            <label for="customeradress">Adress: </label>
+                            <input type="text" placeholder="R. Bernardino José de Oliveira" class="form-control"
+                                id="customeradress" name="customeradress">
+                        </div>
+                        <div class="d-block">
+                            <label for="customeadressnumber">Adress number: </label>
+                            <input type="number" placeholder="81" class="form-control" id="customeadressnumber"
+                                name="customeadressnumber">
+                        </div>
+                        <div class="d-block">
                             <label for="customercpf">CPF: </label>
                             <input type="text" placeholder="999.999.999-99" class="form-control" id="customercpf"
                                 name="customercpf">
                         </div>
                         <div class="d-block">
-                            <label for="customercpf">Email: </label>
+                            <label for="customeremail">Email: </label>
                             <input type="email" placeholder="customername@gmail.com" class="form-control"
-                                id="customercpf" name="customercpf">
+                                id="customeremail" name="customeremail">
                         </div>
                         <div class="d-block">
                             <label for="customerpassword">Password: </label>
@@ -203,7 +213,7 @@
                         </div>
                         <div class="d-block">
                             <label for="salevalue">Sale value:</label>
-                            <input class="form-control" type="number" step="0.01" id="vehicleprice" name="vehicleprice"
+                            <input class="form-control" type="number" step="0.01" id="salevalue" name="salevalue"
                                 placeholder="Ex: 25000.00">
                         </div>
                     </form>
@@ -237,7 +247,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="sendsale">Remove</button>
+                    <button type="button" class="btn btn-primary" id="removevehiclebt">Remove</button>
                 </div>
             </div>
         </div>
@@ -264,7 +274,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="sendsale">Remove</button>
+                    <button type="button" class="btn btn-primary" id="removecustomerbt">Remove</button>
                 </div>
             </div>
         </div>

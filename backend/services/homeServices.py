@@ -1,3 +1,5 @@
+from models.customer import Customer
+from models.employee import Employee
 from geral.config import *
 from models.vehicle import Vehicle
 # from PIL import Image
@@ -31,6 +33,7 @@ def salvar_imagem():
             response = jsonify({"result":"ok", "details": file_val.filename})
     except Exception as e:
         response = jsonify({"result":"error", "details": str(e)})
+    print(response)
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
@@ -60,5 +63,17 @@ def list_vehicles():
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
+@app.route("/getData")
+def getData():
+    try:
+        vehicles = [v.json() for v in db.session.query(Vehicle).all()]
+        customers = [c.json() for c in db.session.query(Customer).all()]
+        employees = [e.json() for e in db.session.query(Employee).all()]
+        response = jsonify({"vehicles": vehicles, "customers": customers, "employees": employees})
+    except Exception as e:
+        response = jsonify({"result": "error", "details": str(e)})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' not in filename or filename.rsplit('.', 1)[1].lower() not in ALLOWED_EXTENSIONS

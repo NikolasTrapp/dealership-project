@@ -9,6 +9,8 @@ class Customer(Person):
 
     id = db.Column(db.Integer, db.ForeignKey("person.id"), primary_key=True)
     password = db.Column(db.String(254), nullable = False)
+    adress = db.Column(db.String(254), nullable = False)
+    adress_number = db.Column(db.Integer, nullable = False)
 
     sales = db.relationship("Sales", back_populates="customer")
 
@@ -23,7 +25,9 @@ class Customer(Person):
             "age": self.age,
             "cpf": self.cpf,
             "email": self.email,
-            "password": str(self.password)
+            "password": str(self.password),
+            "adress": self.adress,
+            "adress_number": self.adress_number
         }
 
     def encypt_password(self) -> None:
