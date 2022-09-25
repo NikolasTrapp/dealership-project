@@ -1,5 +1,5 @@
 # importações
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request, session, send_file
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -11,6 +11,7 @@ app = Flask(__name__)
 CORS(app)  
 
 path = os.path.dirname(os.path.abspath(__file__))
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 arquivobd = os.path.join(path, 'dealership.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///"+arquivobd
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # remover warnings

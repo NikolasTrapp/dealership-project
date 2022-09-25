@@ -12,6 +12,7 @@ class Vehicle(db.Model):
     mileage = db.Column(db.Integer, nullable = False)
     engine_capacity = db.Column(db.Integer, nullable = False)
     price = db.Column(db.Float, nullable = False)
+    image_name = db.Column(db.String(254), nullable = False)
     type = db.Column(db.String(50))
 
     sales = db.relationship("Sales", back_populates="vehicle")
@@ -29,5 +30,6 @@ class Vehicle(db.Model):
             "year": self.year,
             "mileage": self.mileage,
             "engine_capacity": self.engine_capacity,
-            "price": self.price
+            "price": self.price,
+            "image_name": self.image_name
         }

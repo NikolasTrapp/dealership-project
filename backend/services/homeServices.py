@@ -1,4 +1,5 @@
 from geral.config import *
+from models.vehicle import Vehicle
 
 @app.route("/")
 def home():
@@ -13,3 +14,37 @@ def delete_tables():
 def create_tables():
     db.create_all()
     return "Criou tudo"
+
+@app.route("/save_image", methods=['POST'])
+def salvar_imagem():
+    try:
+        file_val = request.files['image']
+        if file_val.filename == "":
+            raise Exception("No selected file")
+        elif allowed_file(file_val.filename):
+            raise Exception("Unsupported image extension")
+        else:
+            print("Image saved in: images/"+file_val.filename)
+            imgfile = os.path.join(path, 'images/'+file_val.filename)
+            file_val.save(imgfile)
+            response = jsonify({"result":"ok", "details": file_val.filename})
+    except Exception as e:
+        response = jsonify({"result":"error", "details": str(e)})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
+@app.route('/get_image/<int:id>')
+def get_image(id):
+    try:
+        imgfile = db.session.query(Vehicle).get(id)
+        if imgfile == None:
+            raise Exception("Any vehicle found!")
+        else:
+            imgpath = os.path.join(path, 'images/'+ imgfile.image_name)
+            return send_file(imgpath, mimetype='image/gif')
+    except Exception as e:
+        response = jsonify({"result":"error", "details": str(e)})
+        return response
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

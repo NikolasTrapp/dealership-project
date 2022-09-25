@@ -62,3 +62,5 @@ def update_motorcycle(id: int):
         response = jsonify({"result": "error", "details": str(e)})
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
+
+
