@@ -19,7 +19,7 @@ class Sales(db.Model):
     employee = db.relationship("Employee", back_populates="sales")
 
     value = db.Column(db.Float, nullable = False)
-    date = db.Column(db.Date, nullable = False)
+    date = db.Column(db.DateTime, nullable = False)
 
     def json(self):
         return {

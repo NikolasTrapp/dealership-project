@@ -1,5 +1,6 @@
 from geral.config import *
 # from models.sales import Sales
+from models.offers import Offer
 
 
 class Vehicle(db.Model):
@@ -7,6 +8,7 @@ class Vehicle(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(70), nullable = False)
+    brand = db.Column(db.String(70), nullable = False)
     color = db.Column(db.String(70), nullable = False)
     year = db.Column(db.Integer, nullable = False)
     mileage = db.Column(db.Integer, nullable = False)
@@ -16,6 +18,7 @@ class Vehicle(db.Model):
     type = db.Column(db.String(50))
 
     sales = db.relationship("Sales", back_populates="vehicle")
+    offers = db.relationship("Offer", back_populates="vehicle")
 
     __mapper_args__ = {
         "polymorphic_identity": "vehicle",
@@ -26,6 +29,7 @@ class Vehicle(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "brand": self.brand,
             "color": self.color,
             "year": self.year,
             "mileage": self.mileage,
