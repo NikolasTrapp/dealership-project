@@ -70,10 +70,6 @@ $(function () {
             tbodyRowEmail.innerHTML = c.email;
             const tbodyRowPassword = tbodyRow.insertCell(5);
             tbodyRowPassword.innerHTML = c.password;
-            const tbodyRowAdress = tbodyRow.insertCell(6);
-            tbodyRowAdress.innerHTML = c.adress;
-            const tbodyRowAdressNumber = tbodyRow.insertCell(7);
-            tbodyRowAdressNumber.innerHTML = c.adress_number;
         });
         $('body').append(table);
     }
@@ -122,12 +118,8 @@ $(function () {
         theadRowEmail.innerHTML = 'Email';
         const theadRowPassword = theadRow.insertCell(5);
         theadRowPassword.innerHTML = 'Password';
-        const theadRowAdress = theadRow.insertCell(6);
-        theadRowAdress.innerHTML = 'Adress';
-        const theadRowAdressNumber = theadRow.insertCell(7);
-        theadRowAdressNumber.innerHTML = 'Adress number';
         const tbody = table.createTBody();
-        tbody.id = 'customerstablebody'
+        tbody.id = 'customerstablebody';    
         return table;
     }
 
@@ -321,6 +313,7 @@ $(function () {
         method: "GET",
         dataType: "json",
         success: function (data){
+            console.log(data);
             data.vehicles.map(v => {
                 $("#selectvehicle").append(`<option value="${v.id}">${v.name}</option>`)
                 $("#selectvehicle-remove").append(`<option rel=${v.type} value="${v.id}">${v.name}</option>`)

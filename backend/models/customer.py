@@ -25,10 +25,7 @@ class Customer(Person):
             "age": self.age,
             "cpf": self.cpf,
             "email": self.email,
-            "phone": self.phone,
-            "password": str(self.password),
-            "adress": self.adress,
-            "adress_number": self.adress_number
+            "password": str(self.password)
         }
 
     def encypt_password(self) -> None:
