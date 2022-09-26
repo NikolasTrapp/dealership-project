@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/css/styles.css">
     <title>Concessionaire</title>
 </head>
 
@@ -20,20 +21,21 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#vehicles">Vehicles</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Vehicles
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#cars" id="queryvehicles">Cars</a></li>
+                            <li><a class="dropdown-item" href="#motorcycles" id="querycustomers">Motorcycles</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#aboutUs">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">SignIn</a>
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginmodal">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Logout</a>
@@ -45,15 +47,14 @@
 
     <main>
         <div class="container" id="vehicles">
+            <h1 class="text text-center">Cars</h1>
             <div id="cars">
-                <h1 class="text">Cars</h1>
-                <div id="cars">
-                    <!-- Cars cards goes here -->
-                </div>
-                <h1 class="text">Motorcycles</h1>
-                <div id="motorcycles">
-                    <!-- Motorcycles cards goes here -->
-                </div>
+                <!-- Cars cards goes here -->
+            </div>
+            <hr>
+            <h1 class="text text-center" style="margin-top: 20px;">Motorcycles</h1>
+            <div id="motorcycles">
+                <!-- Motorcycles cards goes here -->
             </div>
         </div>
 
@@ -106,21 +107,11 @@
                 uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
                 uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuummmmmmmmmmmmmm</p>
         </div>
-
-        <div class="container" id="contact">
-            <h1>Social media</h1>
-            <div class="social">
-                <a href="#">Instagram</a>
-                <a href="#">Facebook</a>
-                <a href="#">Linkedin</a>
-                <a href="#">Tiktok</a>
-            </div>
-        </div>
     </main>
 
     <footer>
         <div class="container">
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top w-100">
                 <div class="col-md-4 d-flex align-items-center">
                     <a href="#" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
                     </a>
@@ -137,8 +128,71 @@
         </div>
     </footer>
 
-    <div style="position: fixed; bottom: 20px; right: 20px;">
+    <div id="gotop" style="position: fixed; bottom: 20px; right: 20px;">
         <a href="#" style="text-decoration: none; font-size: 30px;">&uarr;</a>
+    </div>
+
+    <!-- Add interest modal -->
+    <div class="modal fade" id="setinterest" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="setinteresttitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="setinteresttitle">Add interest</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return false;" id="interestform">
+                        <div class="d-block">
+                            <label for="customeradress">Adress: </label>
+                            <input type="text" placeholder="R. Bernardino José de Oliveira" class="form-control"
+                                id="customeradress" name="customeradress">
+                        </div>
+                        <div class="d-block">
+                            <label for="customeradressnumber">Adress number: </label>
+                            <input type="number" placeholder="81" class="form-control" id="customeradressnumber"
+                                name="customeradressnumber">
+                        </div>
+                        <div class="d-block">
+                            <label for="customeremail">Email: </label>
+                            <input type="email" placeholder="customername@gmail.com" class="form-control"
+                                id="customeremail" name="customeremail">
+                        </div>
+                        <div class="d-block">
+                            <label for="customerphone">Phone: </label>
+                            <input type="text" placeholder="(47) 99999-9999" class="form-control"
+                                id="customerphone" name="customerphone">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendinterest">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login modal -->
+    <div class="modal fade" id="loginmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="loginmodaltitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginmodaltitle">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return false;" id="interestform">
+                        ...
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendlogin">Login</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 

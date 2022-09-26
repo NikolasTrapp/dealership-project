@@ -8,10 +8,7 @@ class Customer(Person):
     __tablename__ = "customer"
 
     id = db.Column(db.Integer, db.ForeignKey("person.id"), primary_key=True)
-    phone = db.Column(db.String(20), nullable = False, unique=True)
     password = db.Column(db.String(254), nullable = False)
-    adress = db.Column(db.String(254), nullable = False)
-    adress_number = db.Column(db.Integer, nullable = False)
 
     sales = db.relationship("Sales", back_populates="customer")
     offers = db.relationship("Offer", back_populates="customer")

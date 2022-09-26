@@ -63,11 +63,11 @@ def addMotorcycles():
     db.session.commit()
     
 def addCustomers():
-    customer1 = Customer(name = "Cleber", age = 30, cpf = "213.654.987-90", email = "cleber@gmail.com", password = "123", phone = "(47) 99999-2456", adress = "R. tchurusbango tchurusbago", adress_number = 81)
-    customer2 = Customer(name = "Joao", age = 30, cpf = "341.568.367-92", email = "joao@gmail.com", password = "123", phone = "(47) 11111-1346", adress = "R. tchurusbango tchurusbago", adress_number = 82)
-    customer3 = Customer(name = "Lucas", age = 30, cpf = "678.348.683-98", email = "lucas@gmail.com", password = "123", phone = "(47) 21312-1731", adress = "R. tchurusbango tchurusbago", adress_number = 83)
-    customer4 = Customer(name = "Maria", age = 30, cpf = "321.214.651-62", email = "maria@gmail.com", password = "123", phone = "(47) 12668-1377", adress = "R. tchurusbango tchurusbago", adress_number = 84)
-    customer5 = Customer(name = "Joana", age = 30, cpf = "515.746.825-37", email = "joana@gmail.com", password = "123", phone = "(47) 84362-1348", adress = "R. tchurusbango tchurusbago", adress_number = 85)
+    customer1 = Customer(name = "Cleber", age = 30, cpf = "213.654.987-90", email = "cleber@gmail.com", password = "123")
+    customer2 = Customer(name = "Joao", age = 30, cpf = "341.568.367-92", email = "joao@gmail.com", password = "123")
+    customer3 = Customer(name = "Lucas", age = 30, cpf = "678.348.683-98", email = "lucas@gmail.com", password = "123")
+    customer4 = Customer(name = "Maria", age = 30, cpf = "321.214.651-62", email = "maria@gmail.com", password = "123")
+    customer5 = Customer(name = "Joana", age = 30, cpf = "515.746.825-37", email = "joana@gmail.com", password = "123")
     customer1.encypt_password()
     customer2.encypt_password()
     customer3.encypt_password()
@@ -105,3 +105,9 @@ def addSales():
     db.session.add(sale4)
     db.session.add(sale5)
     db.session.commit()
+    
+# addCars()
+# addCustomers()
+# addMotorcycles()
+# addEmployees()
+# addSales()
