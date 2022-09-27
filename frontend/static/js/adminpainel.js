@@ -38,12 +38,44 @@ $(function () {
         });
     });
 
+    $("#queryoffers").on("click", function(){
+        $.ajax({
+            url: 'http://localhost:5000/listOffers',
+            method: 'GET',
+            dataType: 'json',
+            success: loadOffers,
+            error: function (response) {
+                alert('Some error ocourred! backend details: ' + response.details);
+            }
+        });
+    });
+
+    function loadOffers(response){
+        console.log(response);
+        $('#graphic').remove();
+        $('.table').remove();
+        createOffersTable();
+        response.details.map(o => {
+            const row = $("<tr></tr>");
+            const tdId = $("<td></td>").text(o.id);
+            const tdDate = $("<td></td>").text(o.date);
+            const tdAdress = $("<td></td>").text(o.adress);
+            const tdAdressNumber = $("<td></td>").text(o.adress_number);
+            const tdPhone = $("<td></td>").text(o.phone);
+            const tdEmail = $("<td></td>").text(o.email);
+            const tdCustomerId = $("<td></td>").text(o.customer);
+            const tdVehicleId = $("<td></td>").text(o.vehicle);
+            row.append(tdId, tdDate, tdAdress, tdAdressNumber, tdPhone,
+                 tdEmail, tdCustomerId, tdVehicleId);
+            $("#offerstablebody").append(row);
+        });
+    }
+
     function loadSales(response) {
         $('#graphic').remove();
         $('.table').remove();
-        const div = document.createElement('div');
-        div.id = 'graphic';
-        document.body.appendChild(div);
+        const div = $("<div></div>").attr("id", "graphic");
+        $("#tables").append(div);
         var layout = {
             height: 400,
             width: 500
@@ -54,24 +86,19 @@ $(function () {
     function loadCustomersTable(response) {
         $('#graphic').remove();
         $('.table').remove();
-        const table = createCustomersTable();
-        console.log(response.details);
+        createCustomersTable();
         response.details.map(c => {
-            const tbodyRow = table.insertRow();
-            const tbodyRowId = tbodyRow.insertCell(0);
-            tbodyRowId.innerHTML = c.id;
-            const tbodyRowName = tbodyRow.insertCell(1);
-            tbodyRowName.innerHTML = c.name;
-            const tbodyRowAge = tbodyRow.insertCell(2);
-            tbodyRowAge.innerHTML = c.age;
-            const tbodyRowCpf = tbodyRow.insertCell(3);
-            tbodyRowCpf.innerHTML = c.cpf;
-            const tbodyRowEmail = tbodyRow.insertCell(4);
-            tbodyRowEmail.innerHTML = c.email;
-            const tbodyRowPassword = tbodyRow.insertCell(5);
-            tbodyRowPassword.innerHTML = c.password;
+            const row = $("<tr></tr>");
+            const tdId = $("<td></td>").text(c.id);
+            const tdName = $("<td></td>").text(c.name);
+            const tdAge = $("<td></td>").text(c.age);
+            const tdCpf = $("<td></td>").text(c.cpf);
+            const tdEmail = $("<td></td>").text(c.email);
+            const tdPassword = $("<td></td>").text(c.password);
+            row.append(tdId, tdName, tdAge, tdCpf, tdEmail, tdPassword);
+            console.log(row);
+            $("#customerstablebody").append(row);
         });
-        $('body').append(table);
     }
 
     function loadVehiclesTable(response) {
@@ -80,73 +107,78 @@ $(function () {
         const table = createVehiclesTable();
         response.details.map(v => {
             // const tbody = $('#vehiclestablebody');
-            const tbodyRow = table.insertRow();
-            const tbodyRowId = tbodyRow.insertCell(0);
-            tbodyRowId.innerHTML = v.id;
-            const tbodyRowName = tbodyRow.insertCell(1);
-            tbodyRowName.innerHTML = v.name;
-            const tbodyRowColor = tbodyRow.insertCell(2);
-            tbodyRowColor.innerHTML = v.color;
-            const tbodyRowYear = tbodyRow.insertCell(3);
-            tbodyRowYear.innerHTML = v.year;
-            const tbodyRowMileage = tbodyRow.insertCell(4);
-            tbodyRowMileage.innerHTML = v.mileage + ' km';
-            const tbodyRowEngineCapacity = tbodyRow.insertCell(5);
-            tbodyRowEngineCapacity.innerHTML = (v.type === 'car' ? v.engine_capacity + ' HP' : v.engine_capacity + ' CC');
-            const tbodyRowPrice = tbodyRow.insertCell(6);
-            tbodyRowPrice.innerHTML = 'R$ ' + v.price;
-            const tbodyRowType = tbodyRow.insertCell(7);
-            tbodyRowType.innerHTML = v.type;
+            const row = $("<tr></tr>");
+            const tdId = $("<td></td>").text(v.id);
+            const tdName = $("<td></td>").text(v.name);
+            const tdColor = $("<td></td>").text(v.color);
+            const tdYear = $("<td></td>").text(v.year);
+            const tdMileage = $("<td></td>").text(v.mileage + "Km");
+            const tdEngineCapacity = $("<td></td>").text(v.type === 'car' ? v.engine_capacity + ' HP' : v.engine_capacity + ' CC');
+            const tdPrice = $("<td></td>").text(v.price);
+            const tdType = $("<td></td>").text(v.type);
+            row.append(tdId, tdName, tdColor, tdYear, tdMileage, tdEngineCapacity, tdPrice, tdType);
+            $("#vehiclestablebody").append(row);
         });
-        $('body').append(table);
     }
 
     function createCustomersTable() {
-        const table = document.createElement('table');
-        table.classList = 'table table-bordered';
-        const thead = table.createTHead();
-        const theadRow = thead.insertRow();
-        const theadRowId = theadRow.insertCell(0);
-        theadRowId.innerHTML = 'Id';
-        const theadRowName = theadRow.insertCell(1);
-        theadRowName.innerHTML = 'Name';
-        const theadRowAge = theadRow.insertCell(2);
-        theadRowAge.innerHTML = 'Age';
-        const theadRowCpf = theadRow.insertCell(3);
-        theadRowCpf.innerHTML = 'CPF';
-        const theadRowEmail = theadRow.insertCell(4);
-        theadRowEmail.innerHTML = 'Email';
-        const theadRowPassword = theadRow.insertCell(5);
-        theadRowPassword.innerHTML = 'Password';
-        const tbody = table.createTBody();
-        tbody.id = 'customerstablebody';    
-        return table;
+        const table = $("<table></table>").addClass("table table-bordered");
+        const thead = $("<thead></thead>");
+        const theadRow = $("<tr></tr>");
+        const tbody = $("<tbody></tbody>").attr("id", "customerstablebody");
+        const thID = $("<th></th>").text("Id");
+        const thName = $("<th></th>").text("Name");
+        const thAge = $("<th></th>").text("Age");  
+        const thCpf = $("<th></th>").text("CPF");
+        const thEmail = $("<th></th>").text("Email");
+        const thPassword = $("<th></th>").text("Password");
+        theadRow.append(thID, thName, thAge, thCpf, thEmail, thPassword);
+        thead.append(theadRow);
+        table.append(thead);
+        table.append(tbody);
+        $("#tables").append(table);
     }
 
     function createVehiclesTable() {
-        const table = document.createElement('table');
-        table.classList = 'table table-bordered';
-        const thead = table.createTHead();
-        const theadRow = thead.insertRow();
-        const theadRowId = theadRow.insertCell(0);
-        theadRowId.innerHTML = 'Id';
-        const theadRowName = theadRow.insertCell(1);
-        theadRowName.innerHTML = 'Name';
-        const theadRowColor = theadRow.insertCell(2);
-        theadRowColor.innerHTML = 'Color';
-        const theadRowYear = theadRow.insertCell(3);
-        theadRowYear.innerHTML = 'Year';
-        const theadRowMileage = theadRow.insertCell(4);
-        theadRowMileage.innerHTML = 'Mileage';
-        const theadRowEngineCapacity = theadRow.insertCell(5);
-        theadRowEngineCapacity.innerHTML = 'Engine Capacity';
-        const theadRowPrice = theadRow.insertCell(6);
-        theadRowPrice.innerHTML = 'Price';
-        const theadRowType = theadRow.insertCell(7);
-        theadRowType.innerHTML = 'Type';
-        const tbody = table.createTBody();
-        tbody.id = 'vehiclestablebody';
-        return table;
+        const table = $("<table></table>").addClass("table table-bordered");
+        const thead = $("<thead></thead>");
+        const theadRow = $("<tr></tr>");
+        const tbody = $("<tbody></tbody>").attr("id", "vehiclestablebody");
+        const thId = $("<th></th>").text("Id");
+        const thName = $("<th></th>").text("Name");
+        const thColor = $("<th></th>").text("Color");
+        const thYear = $("<th></th>").text("Year");
+        const thMileage = $("<th></th>").text("Mileage");
+        const thEngineCapacity = $("<th></th>").text("Engine Capacity");
+        const thPrice = $("<th></th>").text("Price");
+        const thType = $("<th></th>").text("Type");
+        theadRow.append(thId, thName, thColor, thYear, thMileage,
+                        thEngineCapacity, thPrice, thType);
+        thead.append(theadRow);
+        table.append(thead);
+        table.append(tbody);
+        $("#tables").append(table);
+    }
+
+    function createOffersTable() {
+        const table = $("<table></table>").addClass("table table-bordered");
+        const thead = $("<thead></thead>");
+        const theadRow = $("<tr></tr>");
+        const tbody = $("<tbody></tbody>").attr("id", "offerstablebody");
+        const thId = $("<th></th>").text("Id");
+        const thDate = $("<th></th>").text("Date");
+        const thAdress = $("<th></th>").text("Adress");
+        const thAdressNumber = $("<th></th>").text("Adress number");
+        const thPhone = $("<th></th>").text("Phone");
+        const thEmail = $("<th></th>").text("Email");
+        const thCustomerId = $("<th></th>").text("Customer Id");
+        const thVehicleId = $("<th></th>").text("Vehicle Id");
+        theadRow.append(thId, thDate, thAdress, thAdressNumber, thPhone,
+             thEmail, thCustomerId, thVehicleId);
+        thead.append(theadRow);
+        table.append(thead);
+        table.append(tbody);
+        $("#tables").append(table);
     }
 
 
@@ -212,8 +244,6 @@ $(function () {
     $("#sendcustomer").on("click", function(){
         let name = $("#customername").val();
         let age = $("#customerage").val();
-        let adress = $("#customeradress").val();
-        let adress_number = $("#customeadressnumber").val();
         let cpf = $("#customercpf").val();
         let email = $("#customeremail").val();
         let password = $("#customerpassword").val();
@@ -221,8 +251,6 @@ $(function () {
         let data = JSON.stringify({
             name: name,
             age: age,
-            adress: adress,
-            adress_number: adress_number,
             cpf: cpf,
             email: email,
             password: password
@@ -317,19 +345,32 @@ $(function () {
             data.vehicles.map(v => {
                 $("#selectvehicle").append(`<option value="${v.id}">${v.name}</option>`)
                 $("#selectvehicle-remove").append(`<option rel=${v.type} value="${v.id}">${v.name}</option>`)
-            })
+            });
             data.employees.map(e => {
                 $("#selectemployee").append(`<option value="${e.id}">${e.name}</option>`)
-            })
+            });
             data.customers.map(c => {
                 $("#selectcustomer").append(`<option value="${c.id}">${c.name}</option>`)
                 $("#selectcustomer-remove").append(`<option value="${c.id}">${c.name}</option>`)
-            })
+            });
+            createOffersTable();
+            data.offers.map(o => {
+                const row = $("<tr></tr>");
+                const tdId = $("<td></td>").text(o.id);
+                const tdDate = $("<td></td>").text(o.date);
+                const tdAdress = $("<td></td>").text(o.adress);
+                const tdAdressNumber = $("<td></td>").text(o.adress_number);
+                const tdPhone = $("<td></td>").text(o.phone);
+                const tdEmail = $("<td></td>").text(o.email);
+                const tdCustomerId = $("<td></td>").text(o.customer);
+                const tdVehicleId = $("<td></td>").text(o.vehicle);
+                row.append(tdId, tdDate, tdAdress, tdAdressNumber, tdPhone,
+                     tdEmail, tdCustomerId, tdVehicleId);
+                $("#offerstablebody").append(row);
+            });
         },
         error: function() {
             alert("erro");
         }
     });
-
-
 });

@@ -1,7 +1,8 @@
 from geral.config import *
 from models.customer import Customer
 
-@app.route("/listCustomers", methods = ["GET"])
+
+@app.route("/listCustomers", methods=["GET"])
 def list_customers():
     try:
         customers = [c.json() for c in db.session.query(Customer).all()]
@@ -14,10 +15,11 @@ def list_customers():
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-@app.route("/listCustomersById/<int:id>", methods = ["GET"])
+
+@app.route("/listCustomersById/<int:id>", methods=["GET"])
 def listCustomers(id: int):
     try:
-        customer = db.session.query(Customer).filter_by(id = id).first()
+        customer = db.session.query(Customer).filter_by(id=id).first()
         if customer == None:
             raise Exception("Any customer found!")
         else:
@@ -27,7 +29,8 @@ def listCustomers(id: int):
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-@app.route("/addCustomer", methods = ["POST"])
+
+@app.route("/addCustomer", methods=["POST"])
 def add_customer():
     data = request.get_json(force=True)
     print(data)
@@ -45,10 +48,11 @@ def add_customer():
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-@app.route("/deleteCustomer/<int:id>", methods = ["DELETE"])
+
+@app.route("/deleteCustomer/<int:id>", methods=["DELETE"])
 def delete_customer(id: int):
     try:
-        db.session.query(Customer).filter_by(id = id).delete()
+        db.session.query(Customer).filter_by(id=id).delete()
         db.session.commit()
         response = jsonify({"result": "ok", "details": "ok"})
     except Exception as e:
@@ -56,14 +60,35 @@ def delete_customer(id: int):
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-@app.route("/updateCustomer/<int:id>", methods = ["PUT"])
+
+@app.route("/updateCustomer/<int:id>", methods=["PUT"])
 def update_customer(id: int):
     data = request.get_json(force=True)
     try:
-        db.session.query(Customer).filter_by(id = id).update(data)
+        db.session.query(Customer).filter_by(id=id).update(data)
         db.session.commit()
         response = jsonify({"result": "ok", "details": "ok"})
     except Exception as e:
         response = jsonify({"result": "error", "details": str(e)})
     response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
+
+@app.route("/validate_login", methods=["POST"])
+def validate_login():
+    try:
+        data = request.get_json(force=True)
+        customer = db.session.query(Customer).filter_by(
+            name=data["name"], email=data["email"]).first()
+        if customer is None:
+            response = jsonify({"result": "error", "details": "No customer found with this name or email"})
+        elif customer.verify_password(data["password"]):
+            access_token = create_access_token(identity=data["name"])
+            response = jsonify({"result": "ok", "details": customer.json(), "token": access_token})
+        else:
+            response = jsonify({"result": "error", "details": "wrong password!"})
+    except Exception as e:
+        response = jsonify({"result": "error", "details": str(e)})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Credentials", "true")
     return response

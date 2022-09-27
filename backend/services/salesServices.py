@@ -24,7 +24,6 @@ def add_sale():
     try:
         data = request.get_json(force=True)
         data["date"] = date.today()
-        print(data["date"])
         sale = Sales(**data)
         db.session.add(sale)
         db.session.commit()

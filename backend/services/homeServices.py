@@ -1,8 +1,9 @@
 from models.customer import Customer
 from models.employee import Employee
+from models.offers import Offer
 from geral.config import *
 from models.vehicle import Vehicle
-# from PIL import Image
+from datetime import date
 
 @app.route("/")
 def home():
@@ -69,11 +70,27 @@ def getData():
         vehicles = [v.json() for v in db.session.query(Vehicle).all()]
         customers = [c.json() for c in db.session.query(Customer).all()]
         employees = [e.json() for e in db.session.query(Employee).all()]
-        response = jsonify({"vehicles": vehicles, "customers": customers, "employees": employees})
+        offers = [o.json() for o in db.session.query(Offer).all()]
+        response = jsonify({"vehicles": vehicles, "customers": customers, "employees": employees, "offers": offers})
     except Exception as e:
         response = jsonify({"result": "error", "details": str(e)})
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
+
+@app.route("/addInterest", methods=["POST"])
+def addInterest():
+    try:
+        data = request.get_json(force=True)
+        data["date"] = date.today()
+        offer = Offer(**data)
+        db.session.add(offer)
+        db.session.commit()
+        response = jsonify({"result": "ok", "details": "ok"})
+    except Exception as e:
+        response = jsonify({"result": "error", "details": str(e)})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+        
 
 def allowed_file(filename):
     return '.' not in filename or filename.rsplit('.', 1)[1].lower() not in ALLOWED_EXTENSIONS

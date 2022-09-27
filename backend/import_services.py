@@ -4,3 +4,4 @@ from services.employeeServices import *
 from services.homeServices import *
 from services.motorcycleServices import *
 from services.salesServices import *
+from services.offersServices import *

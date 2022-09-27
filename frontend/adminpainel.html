@@ -31,6 +31,7 @@
                             <li><a class="dropdown-item" href="#" id="queryvehicles">Vehicles</a></li>
                             <li><a class="dropdown-item" href="#" id="querycustomers">Customers</a></li>
                             <li><a class="dropdown-item" href="#" id="querysales">Sales</a></li>
+                            <li><a class="dropdown-item" href="#" id="queryoffers">Offers</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -63,6 +64,8 @@
             </div>
         </div>
     </nav>
+
+    <div id="tables"></div>
 
     <!-- Add vehicle modal -->
     <div class="modal fade" id="addvehicle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -148,16 +151,6 @@
                                 name="customerage">
                         </div>
                         <div class="d-block">
-                            <label for="customeradress">Adress: </label>
-                            <input type="text" placeholder="R. Bernardino José de Oliveira" class="form-control"
-                                id="customeradress" name="customeradress">
-                        </div>
-                        <div class="d-block">
-                            <label for="customeadressnumber">Adress number: </label>
-                            <input type="number" placeholder="81" class="form-control" id="customeadressnumber"
-                                name="customeadressnumber">
-                        </div>
-                        <div class="d-block">
                             <label for="customercpf">CPF: </label>
                             <input type="text" placeholder="999.999.999-99" class="form-control" id="customercpf"
                                 name="customercpf">
@@ -169,7 +162,7 @@
                         </div>
                         <div class="d-block">
                             <label for="customerpassword">Password: </label>
-                            <input type="email" placeholder="super secret password" class="form-control"
+                            <input type="password" placeholder="super secret password" class="form-control"
                                 id="customerpassword" name="customerpassword">
                         </div>
                     </form>

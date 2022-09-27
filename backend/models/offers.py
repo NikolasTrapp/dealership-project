@@ -11,6 +11,7 @@ class Offer(db.Model):
     adress = db.Column(db.String(254), nullable = False)
     adress_number = db.Column(db.Integer, nullable = False)
     phone = db.Column(db.String(20), nullable = False, unique=True)
+    email = db.Column(db.String(254), nullable = False, unique=True)
     
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable = False)
     vehicle = db.relationship("Vehicle", back_populates="offers")
@@ -22,6 +23,10 @@ class Offer(db.Model):
         return {
             "id": self.id,
             "date": self.date,
+            "adress": self.adress,
+            "adress_number": self.adress_number,
+            "phone": self.phone,
+            "email": self.email,
             "vehicle": self.vehicle.id,
             "customer": self.customer.id
         }
