@@ -10,8 +10,8 @@ class Offer(db.Model):
     date = db.Column(db.DateTime, nullable = False)
     adress = db.Column(db.String(254), nullable = False)
     adress_number = db.Column(db.Integer, nullable = False)
-    phone = db.Column(db.String(20), nullable = False, unique=True)
-    email = db.Column(db.String(254), nullable = False, unique=True)
+    phone = db.Column(db.String(20), nullable = False)
+    email = db.Column(db.String(254), nullable = False)
     
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable = False)
     vehicle = db.relationship("Vehicle", back_populates="offers")

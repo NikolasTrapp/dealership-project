@@ -13,12 +13,12 @@ $(function () {
         if (sessionStorage.getItem("session") === null){
             alert("do login!");
         } else {
-            let adress = $("#customeradress").val();
-            let adress_number = $("#customeradressnumber").val();
-            let email = $("#customeremail").val();
-            let phone = $("#customerphone").val();
+            let adress = injectionProtection($("#customeradress").val());
+            let adress_number = injectionProtection($("#customeradressnumber").val());
+            let email = injectionProtection($("#customeremail").val());
+            let phone = injectionProtection($("#customerphone").val());
             let customer_id = JSON.parse(sessionStorage.session).id;
-            let vehicle_id = $("#sendinterest").attr("rel");
+            let vehicle_id = injectionProtection($("#sendinterest").attr("rel"));
 
             let data = JSON.stringify({
                 adress: adress,
@@ -50,11 +50,11 @@ $(function () {
     });
 
     $("#sendregistercustomer").on("click", function(){
-        let name = $("#registercustomername").val();
-        let age = $("#registercustomerage").val();
-        let cpf = $("#registercustomercpf").val();
-        let email = $("#registercustomeremail").val();
-        let password = $("#registercustomerpassword").val();
+        let name = injectionProtection($("#registercustomername").val());
+        let age = injectionProtection($("#registercustomerage").val());
+        let cpf = injectionProtection($("#registercustomercpf").val());
+        let email = injectionProtection($("#registercustomeremail").val());
+        let password = injectionProtection($("#registercustomerpassword").val());
 
         let data = JSON.stringify({
             name: name,
@@ -138,9 +138,9 @@ $(function () {
     });
 
     $("#sendlogin").on("click", function () {
-        let name = $("#customername").val();
-        let email = $("#customeremaillogin").val();
-        let password = $("#customerpassword").val();
+        let name = injectionProtection($("#customername").val());
+        let email = injectionProtection($("#customeremaillogin").val());
+        let password = injectionProtection($("#customerpassword").val());
 
         let data = JSON.stringify({
             name: name,
@@ -170,5 +170,10 @@ $(function () {
         });
 
     });
+
+    function injectionProtection(str){
+        str = str.replace(/[<]|[>]|(&lt;)|(&gt;)|(&lt)|(&gt)|(script)/g, "");
+        return str;
+    }
 
 });

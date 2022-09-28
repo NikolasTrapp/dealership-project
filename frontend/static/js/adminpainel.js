@@ -51,7 +51,6 @@ $(function () {
     });
 
     function loadOffers(response){
-        console.log(response);
         $('#graphic').remove();
         $('.table').remove();
         createOffersTable();
@@ -96,7 +95,6 @@ $(function () {
             const tdEmail = $("<td></td>").text(c.email);
             const tdPassword = $("<td></td>").text(c.password);
             row.append(tdId, tdName, tdAge, tdCpf, tdEmail, tdPassword);
-            console.log(row);
             $("#customerstablebody").append(row);
         });
     }
@@ -183,14 +181,14 @@ $(function () {
 
 
     $('#sendvehicle').on('click', function() {
-        let name = $('#vehiclename').val();
-        let color = $('#vehiclecolor').val();
-        let year = $('#vehicleyear').val();
-        let mileage = $('#vehiclemileage').val();
-        let engine_capacity = $('#vehicleenginecapacity').val();
-        let price = $('#vehicleprice').val();
-        let vehicletype = $('#vehicletype').val();
-        let image_name = $('#vehicleimage').val().substr(12);
+        let name = injectionProtection($('#vehiclename').val());
+        let color = injectionProtection($('#vehiclecolor').val());
+        let year = injectionProtection($('#vehicleyear').val());
+        let mileage = injectionProtection($('#vehiclemileage').val());
+        let engine_capacity = injectionProtection($('#vehicleenginecapacity').val());
+        let price = injectionProtection($('#vehicleprice').val());
+        let vehicletype = injectionProtection($('#vehicletype').val());
+        let image_name = injectionProtection($('#vehicleimage').val().substr(12));
 
         let vehicledata = JSON.stringify({
             name: name,
@@ -242,11 +240,11 @@ $(function () {
     }
 
     $("#sendcustomer").on("click", function(){
-        let name = $("#customername").val();
-        let age = $("#customerage").val();
-        let cpf = $("#customercpf").val();
-        let email = $("#customeremail").val();
-        let password = $("#customerpassword").val();
+        let name = injectionProtection($("#customername").val());
+        let age = injectionProtection($("#customerage").val());
+        let cpf = injectionProtection($("#customercpf").val());
+        let email = injectionProtection($("#customeremail").val());
+        let password = injectionProtection($("#customerpassword").val());
 
         let data = JSON.stringify({
             name: name,
@@ -272,10 +270,10 @@ $(function () {
     });
 
     $("#sendsale").on("click", function(){
-        let value = $("#salevalue").val();
-        let customer_id = $("#selectcustomer").val();
-        let employee_id = $("#selectemployee").val();
-        let vehicle_id = $("#selectvehicle").val();
+        let value = injectionProtection($("#salevalue").val());
+        let customer_id = injectionProtection($("#selectcustomer").val());
+        let employee_id = injectionProtection($("#selectemployee").val());
+        let vehicle_id = injectionProtection($("#selectvehicle").val());
 
         let data = JSON.stringify({
             value: value,
@@ -283,8 +281,6 @@ $(function () {
             employee_id: employee_id,
             vehicle_id: vehicle_id
         });
-
-        console.log(data);
 
         $.ajax({
             url: "http://localhost:5000/addSale",
@@ -317,12 +313,9 @@ $(function () {
     });
 
     $("#removevehiclebt").on("click", function(){
-        let vehicle_id = $("#selectvehicle-remove").val();
-        let vehicle_type = $("#selectvehicle-remove").find(":selected").attr("rel");
-        let vt = vehicle_type[0].toUpperCase() + vehicle_type.substring(1);
-        console.log(vehicle_id);
-        console.log(vehicle_type);
-        console.log(vt);
+        let vehicle_id = injectionProtection($("#selectvehicle-remove").val());
+        let vehicle_type = injectionProtection($("#selectvehicle-remove").find(":selected").attr("rel"));
+        let vt = injectionProtection(vehicle_type[0].toUpperCase() + vehicle_type.substring(1));
         
         $.ajax({
             url: `http://localhost:5000/delete${vt}/${vehicle_id}`,
@@ -341,7 +334,6 @@ $(function () {
         method: "GET",
         dataType: "json",
         success: function (data){
-            console.log(data);
             data.vehicles.map(v => {
                 $("#selectvehicle").append(`<option value="${v.id}">${v.name}</option>`)
                 $("#selectvehicle-remove").append(`<option rel=${v.type} value="${v.id}">${v.name}</option>`)
@@ -373,4 +365,9 @@ $(function () {
             alert("erro");
         }
     });
+
+    function injectionProtection(str){
+        str = str.replace(/[<]|[>]|(&lt;)|(&gt;)|(&lt)|(&gt)|(script)/g, "");
+        return str;
+    }
 });
