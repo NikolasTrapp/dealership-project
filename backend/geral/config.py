@@ -20,3 +20,14 @@ db = SQLAlchemy(app)
 app.config["JWT_SECRET_KEY"] = "^4r#24h90S#b6fU@gg#5"  # Change this!
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=10)
 jwt = JWTManager(app)
+
+ENTITIES = {
+    "Car": 0,
+    "Motorcycle": 1,
+    "Customer": 2,
+    "Employee": 3,
+    "Offer": 4,
+    "Sale": 5,
+    "Person": 6,
+    "Vehicle": 7
+}

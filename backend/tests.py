@@ -27,16 +27,16 @@ def delete(entity, id):
     db.session.commit()'''
 
 def addCars():
-    car1 = Car(name = "Ferrari F8", brand = "Ferrari", color = "Red", year = 2022, mileage = 0, engine_capacity = 720, price = 4350000.00, image_name = "ferrari.jpg")
-    car2 = Car(name = "Fusca", brand = "Volkswagen", color = "Blue", year = 1973, mileage = 0, engine_capacity = 65, price = 28000.00, image_name = "fusca.jpg")
-    car3 = Car(name = "Fiat Uno", brand = "Fiat", color = "White", year = 1990, mileage = 170, engine_capacity = 75, price = 12484.00, image_name = "fiatuno.jpg")
-    car4 = Car(name = "Kicks", brand = "Nissan", color = "Silver", year = 2022, mileage = 0, engine_capacity = 430, price = 106000.00, image_name = "kicks.jpg")
-    car5 = Car(name = "Gol Bolinha", brand = "Volkswagen", color = "White", year = 2000, mileage = 0, engine_capacity = 109, price = 35000.00, image_name = "golbolinha.jpg")
-    car6 = Car(name = "Monza", brand = "Chevrolet", color = "Red", year = 1994, mileage = 0, engine_capacity = 99, price = 16990.00, image_name = "monza.jpg")
-    car7 = Car(name = "Del Rey", brand = "Ford", color = "Cyan", year = 1989, mileage = 0, engine_capacity = 830, price = 29990.00, image_name = "delrey.jpg")
-    car8 = Car(name = "Ford GT", brand = "Ford", color = "White", year = 2021, mileage = 0, engine_capacity = 669, price = 2450000.00, image_name = "fordgt.jpg")
-    car9 = Car(name = "Lamborghini Aventador", brand = "Lamborghini", color = "Black", year = 2013, mileage = 0, engine_capacity = 770, price = 8700000.00, image_name = "aventador.jpg")
-    car10 = Car(name = "Camaro", brand="Ford", color = "Yellow", year = 2010, mileage = 0, engine_capacity = 461, price = 481000.00, image_name = "camaro.jpg")
+    car1 = Car(name = "Ferrari F8", brand = "Ferrari", color = "Red", year = 2022, mileage = 0, engine_capacity = 720, price = 4350000.00, image_name = "ferrari.jpg", doors = 4)
+    car2 = Car(name = "Fusca", brand = "Volkswagen", color = "Blue", year = 1973, mileage = 0, engine_capacity = 65, price = 28000.00, image_name = "fusca.jpg", doors = 4)
+    car3 = Car(name = "Fiat Uno", brand = "Fiat", color = "White", year = 1990, mileage = 170, engine_capacity = 75, price = 12484.00, image_name = "fiatuno.jpg", doors = 4)
+    car4 = Car(name = "Kicks", brand = "Nissan", color = "Silver", year = 2022, mileage = 0, engine_capacity = 430, price = 106000.00, image_name = "kicks.jpg", doors = 4)
+    car5 = Car(name = "Gol Bolinha", brand = "Volkswagen", color = "White", year = 2000, mileage = 0, engine_capacity = 109, price = 35000.00, image_name = "golbolinha.jpg", doors = 4)
+    car6 = Car(name = "Monza", brand = "Chevrolet", color = "Red", year = 1994, mileage = 0, engine_capacity = 99, price = 16990.00, image_name = "monza.jpg", doors = 4)
+    car7 = Car(name = "Del Rey", brand = "Ford", color = "Cyan", year = 1989, mileage = 0, engine_capacity = 830, price = 29990.00, image_name = "delrey.jpg", doors = 4)
+    car8 = Car(name = "Ford GT", brand = "Ford", color = "White", year = 2021, mileage = 0, engine_capacity = 669, price = 2450000.00, image_name = "fordgt.jpg", doors = 4)
+    car9 = Car(name = "Lamborghini Aventador", brand = "Lamborghini", color = "Black", year = 2013, mileage = 0, engine_capacity = 770, price = 8700000.00, image_name = "aventador.jpg", doors = 4)
+    car10 = Car(name = "Camaro", brand="Ford", color = "Yellow", year = 2010, mileage = 0, engine_capacity = 461, price = 481000.00, image_name = "camaro.jpg", doors = 4)
     db.session.add(car1)
     db.session.add(car2)
     db.session.add(car3)
@@ -105,9 +105,10 @@ def addSales():
     db.session.add(sale4)
     db.session.add(sale5)
     db.session.commit()
-    
-# addCars()
-# addCustomers()
-# addMotorcycles()
-# addEmployees()
-# addSales()
+
+with app.app_context():
+    addCars()
+    addCustomers()
+    addMotorcycles()
+    addEmployees()
+    addSales()
