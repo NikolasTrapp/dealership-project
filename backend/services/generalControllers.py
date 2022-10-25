@@ -32,8 +32,16 @@ def searchController(entity: str, id: int):
 def insertController(entity: str):
     try:
         data = request.get_json(force= True)
-        obj = [Car, Motorcycle, Customer, Employee, Offer, Sales][ENTITIES[entity]]()
-        obj.make(data)
+        if entity == "Sale":
+            d = data["data"].split("-")
+            data["data"] = date(int(d[2]), int(d[1]), int(d[0]))
+            obj = Sales(**data)
+        elif entity == "Employee" or entity == "Customer":
+            obj = [Car, Motorcycle, Customer, Employee, Offer, Sales][ENTITIES[entity]](**data)
+            if not obj.verify_cpf():
+                raise Exception("Invalid CPF!")
+        else:
+            obj = [Car, Motorcycle, Customer, Employee, Offer, Sales][ENTITIES[entity]](**data)
         db.session.add(obj)
         db.session.commit()
         response = jsonify({"result": "ok", "details": "ok"})
@@ -52,6 +60,26 @@ def deleteController(entity: str, id: int):
         else:
             db.session.commit()
             response = jsonify({"result": "ok", "details": "ok"})
+    except Exception as e:
+        response = jsonify({"result": "error", "details": str(e)})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
+@app.route("/update/<string:entity>/<int:id>", methods = ["PUT"])
+def updateController(entity: str, id: int):
+    try:
+        data = request.get_json(force= True)
+        obj = [Car, Motorcycle, Customer, Employee, Offer, Sales][ENTITIES[entity]]
+        if entity == "Sale":
+            d = data["data"].split("-")
+            data["data"] = date(int(d[2]), int(d[1]), int(d[0]))
+        elif entity == "Employee" or entity == "Customer":
+            obj = db.session.query(obj).filter_by(id = id).update(data)
+            if not obj.verify_cpf():
+                raise Exception("Invalid CPF!")
+        db.session.query(obj).filter_by(id = id).update(data)
+        db.session.commit()
+        response = jsonify({"result": "ok", "details": "ok"})
     except Exception as e:
         response = jsonify({"result": "error", "details": str(e)})
     response.headers.add("Access-Control-Allow-Origin", "*")
@@ -104,3 +132,4 @@ def getData():
 
 def allowed_file(filename):
     return '.' not in filename or filename.rsplit('.', 1)[1].lower() not in ALLOWED_EXTENSIONS
+    

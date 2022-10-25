@@ -14,15 +14,3 @@ class Car(Vehicle):
 
     def json(self):
         return super.json().update({"doors": self.doors})
-
-    def make(self, dados):
-        self.name = dados["name"]
-        self.brand = dados["brand"]
-        self.color = dados["color"]
-        self.year = dados["year"]
-        self.mileage = dados["mileage"]
-        self.engine_capacity = dados["engine_capacity"]
-        self.price = dados["price"]
-        self.image_name = dados["image_name"]
-        self.type = dados["type"]
-        self.doors = dados["doors"]
