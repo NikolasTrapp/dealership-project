@@ -1,4 +1,5 @@
 from geral.config import *
+from geral.cifrar import *
 from models.car import *
 from models.customer import *
 from models.employee import *
@@ -63,16 +64,11 @@ def addMotorcycles():
     db.session.commit()
     
 def addCustomers():
-    customer1 = Customer(name = "Cleber", age = 30, cpf = "213.654.987-90", email = "cleber@gmail.com", password = "123")
-    customer2 = Customer(name = "Joao", age = 30, cpf = "341.568.367-92", email = "joao@gmail.com", password = "123")
-    customer3 = Customer(name = "Lucas", age = 30, cpf = "678.348.683-98", email = "lucas@gmail.com", password = "123")
-    customer4 = Customer(name = "Maria", age = 30, cpf = "321.214.651-62", email = "maria@gmail.com", password = "123")
-    customer5 = Customer(name = "Joana", age = 30, cpf = "515.746.825-37", email = "joana@gmail.com", password = "123")
-    customer1.encypt_password()
-    customer2.encypt_password()
-    customer3.encypt_password()
-    customer4.encypt_password()
-    customer5.encypt_password()
+    customer1 = Customer(name = "Cleber", age = 30, cpf = "213.654.987-90", email = "cleber@gmail.com", password = encrypt("123"))
+    customer2 = Customer(name = "Joao", age = 30, cpf = "341.568.367-92", email = "joao@gmail.com", password = encrypt("123"))
+    customer3 = Customer(name = "Lucas", age = 30, cpf = "678.348.683-98", email = "lucas@gmail.com", password = encrypt("123"))
+    customer4 = Customer(name = "Maria", age = 30, cpf = "321.214.651-62", email = "maria@gmail.com", password = encrypt("123"))
+    customer5 = Customer(name = "Joana", age = 30, cpf = "515.746.825-37", email = "joana@gmail.com", password = encrypt("123"))
     db.session.add(customer1)
     db.session.add(customer2)
     db.session.add(customer3)

@@ -13,4 +13,6 @@ class Car(Vehicle):
     }
 
     def json(self):
-        return super.json().update({"doors": self.doors})
+        dados = super().json()
+        dados["doors"] = self.doors
+        return dados

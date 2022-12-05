@@ -3,7 +3,7 @@ $(function () {
     $('#queryvehicles').on('click', function () {
 
         $.ajax({
-            url: 'http://localhost:5000/listVehicles',
+            url: 'http://localhost:5000/query/Vehicle',
             method: 'GET',
             dataType: 'json',
             success: loadVehiclesTable,
@@ -16,7 +16,7 @@ $(function () {
     $('#querycustomers').on('click', function () {
 
         $.ajax({
-            url: 'http://localhost:5000/listCustomers',
+            url: 'http://localhost:5000/query/Customer',
             method: 'GET',
             dataType: 'json',
             success: loadCustomersTable,
@@ -28,7 +28,7 @@ $(function () {
 
     $('#querysales').on('click', function () {
         $.ajax({
-            url: 'http://localhost:5000/listSales',
+            url: 'http://localhost:5000/query/Sale',
             method: 'GET',
             dataType: 'json',
             success: loadSales,
@@ -38,9 +38,9 @@ $(function () {
         });
     });
 
-    $("#queryoffers").on("click", function(){
+    $("#queryoffers").on("click", function () {
         $.ajax({
-            url: 'http://localhost:5000/listOffers',
+            url: 'http://localhost:5000/query/Offer',
             method: 'GET',
             dataType: 'json',
             success: loadOffers,
@@ -50,7 +50,7 @@ $(function () {
         });
     });
 
-    function loadOffers(response){
+    function loadOffers(response) {
         $('#graphic').remove();
         $('.table').remove();
         createOffersTable();
@@ -65,21 +65,28 @@ $(function () {
             const tdCustomerId = $("<td></td>").text(o.customer);
             const tdVehicleId = $("<td></td>").text(o.vehicle);
             row.append(tdId, tdDate, tdAdress, tdAdressNumber, tdPhone,
-                 tdEmail, tdCustomerId, tdVehicleId);
+                tdEmail, tdCustomerId, tdVehicleId);
             $("#offerstablebody").append(row);
         });
     }
 
     function loadSales(response) {
+        console.log(response.details.map(s => s.date));
         $('#graphic').remove();
         $('.table').remove();
         const div = $("<div></div>").attr("id", "graphic");
         $("#tables").append(div);
+        var data = [{
+            values: response.details.map(s => s.value),
+            labels: response.details.map(s => s.date),
+            type: 'pie'
+        }];
+
         var layout = {
             height: 400,
             width: 500
         };
-        Plotly.newPlot('graphic', [response.details], layout);
+        Plotly.newPlot('graphic', data, layout);
     }
 
     function loadCustomersTable(response) {
@@ -126,7 +133,7 @@ $(function () {
         const tbody = $("<tbody></tbody>").attr("id", "customerstablebody");
         const thID = $("<th></th>").text("Id");
         const thName = $("<th></th>").text("Name");
-        const thAge = $("<th></th>").text("Age");  
+        const thAge = $("<th></th>").text("Age");
         const thCpf = $("<th></th>").text("CPF");
         const thEmail = $("<th></th>").text("Email");
         const thPassword = $("<th></th>").text("Password");
@@ -151,7 +158,7 @@ $(function () {
         const thPrice = $("<th></th>").text("Price");
         const thType = $("<th></th>").text("Type");
         theadRow.append(thId, thName, thColor, thYear, thMileage,
-                        thEngineCapacity, thPrice, thType);
+            thEngineCapacity, thPrice, thType);
         thead.append(theadRow);
         table.append(thead);
         table.append(tbody);
@@ -172,7 +179,7 @@ $(function () {
         const thCustomerId = $("<th></th>").text("Customer Id");
         const thVehicleId = $("<th></th>").text("Vehicle Id");
         theadRow.append(thId, thDate, thAdress, thAdressNumber, thPhone,
-             thEmail, thCustomerId, thVehicleId);
+            thEmail, thCustomerId, thVehicleId);
         thead.append(theadRow);
         table.append(thead);
         table.append(tbody);
@@ -180,7 +187,7 @@ $(function () {
     }
 
 
-    $('#sendvehicle').on('click', function() {
+    $('#sendvehicle').on('click', function () {
         let name = injectionProtection($('#vehiclename').val());
         let color = injectionProtection($('#vehiclecolor').val());
         let year = injectionProtection($('#vehicleyear').val());
@@ -201,7 +208,7 @@ $(function () {
         });
 
         $.ajax({
-            url: 'http://localhost:5000/add' + vehicletype,
+            url: 'http://localhost:5000/insert/' + vehicletype,
             method: "POST",
             dataType: "json",
             contentType: "application/json",
@@ -239,7 +246,7 @@ $(function () {
         });
     }
 
-    $("#sendcustomer").on("click", function(){
+    $("#sendcustomer").on("click", function () {
         let name = injectionProtection($("#customername").val());
         let age = injectionProtection($("#customerage").val());
         let cpf = injectionProtection($("#customercpf").val());
@@ -255,21 +262,21 @@ $(function () {
         });
 
         $.ajax({
-            url: "http://localhost:5000/addCustomer",
+            url: "http://localhost:5000/insert/Customer",
             method: "POST",
             dataType: "json",
             contentType: "application/json",
             data: data,
-            success: function(result){
+            success: function (result) {
                 console.log(result);
             },
-            error: function(result){
+            error: function (result) {
                 console.log(result);
             }
         });
     });
 
-    $("#sendsale").on("click", function(){
+    $("#sendsale").on("click", function () {
         let value = injectionProtection($("#salevalue").val());
         let customer_id = injectionProtection($("#selectcustomer").val());
         let employee_id = injectionProtection($("#selectemployee").val());
@@ -283,47 +290,49 @@ $(function () {
         });
 
         $.ajax({
-            url: "http://localhost:5000/addSale",
+            url: "http://localhost:5000/insert/Sale",
             method: "POST",
             dataType: "json",
             contentType: "application/json",
             data: data,
-            success: function(result){
+            success: function (result) {
                 console.log(result);
             },
-            error: function(result){
+            error: function (result) {
                 console.log(result);
             }
         });
     });
 
-    $("#removecustomerbt").on("click", function(){
+    $("#removecustomerbt").on("click", function () {
         let customer_id = $("#selectcustomer-remove").val();
-        
+
         $.ajax({
-            url: "http://localhost:5000/deleteCustomer/" + customer_id,
+            url: "http://localhost:5000/delete/Customer/" + customer_id,
             method: "DELETE",
-            success: function(result){
+            headers: {Authorization: `Bearer ${sessionStorage.token}`},
+            success: function (result) {
                 console.log(result);
             },
-            error: function(result){
+            error: function (result) {
                 console.log(result);
             }
         });
     });
 
-    $("#removevehiclebt").on("click", function(){
+    $("#removevehiclebt").on("click", function () {
         let vehicle_id = injectionProtection($("#selectvehicle-remove").val());
         let vehicle_type = injectionProtection($("#selectvehicle-remove").find(":selected").attr("rel"));
         let vt = injectionProtection(vehicle_type[0].toUpperCase() + vehicle_type.substring(1));
-        
+
         $.ajax({
-            url: `http://localhost:5000/delete${vt}/${vehicle_id}`,
+            url: `http://localhost:5000/delete/${vt}/${vehicle_id}`,
             method: "DELETE",
-            success: function(result){
+            headers: {Authorization: `Bearer ${sessionStorage.token}`},
+            success: function (result) {
                 console.log(result);
             },
-            error: function(result){
+            error: function (result) {
                 console.log(result);
             }
         });
@@ -333,7 +342,7 @@ $(function () {
         url: "http://localhost:5000/getData",
         method: "GET",
         dataType: "json",
-        success: function (data){
+        success: function (data) {
             data.vehicles.map(v => {
                 $("#selectvehicle").append(`<option value="${v.id}">${v.name}</option>`)
                 $("#selectvehicle-remove").append(`<option rel=${v.type} value="${v.id}">${v.name}</option>`)
@@ -357,16 +366,16 @@ $(function () {
                 const tdCustomerId = $("<td></td>").text(o.customer);
                 const tdVehicleId = $("<td></td>").text(o.vehicle);
                 row.append(tdId, tdDate, tdAdress, tdAdressNumber, tdPhone,
-                     tdEmail, tdCustomerId, tdVehicleId);
+                    tdEmail, tdCustomerId, tdVehicleId);
                 $("#offerstablebody").append(row);
             });
         },
-        error: function() {
+        error: function () {
             alert("erro");
         }
     });
 
-    function injectionProtection(str){
+    function injectionProtection(str) {
         str = str.replace(/[<]|[>]|(&lt;)|(&gt;)|(&lt)|(&gt)|(script)/g, "");
         return str;
     }

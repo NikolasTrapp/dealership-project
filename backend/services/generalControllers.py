@@ -1,10 +1,12 @@
 from services.import_models import *
+from geral.cifrar import *
 
 
 @app.route("/query/<string:entity>", methods = ["GET"])
+@jwt_required(optional = True)
 def queryController(entity: str):
     try:
-        obj = [Car, Motorcycle, Vehicle, Customer, Employee, Offer, Sales][ENTITIES[entity]]
+        obj = [Car, Motorcycle, Customer, Employee, Offer, Sales, Person, Vehicle][ENTITIES[entity]]
         entities = [x.json() for x in db.session.query(obj).all()]
         if len(entities) <= 0:
             raise Exception(f"Any {entity} found!")
@@ -15,9 +17,10 @@ def queryController(entity: str):
     return response
 
 @app.route("/search/<string:entity>/<int:id>", methods = ["GET"])
+@jwt_required(optional = True)
 def searchController(entity: str, id: int):
     try:
-        obj = [Car, Motorcycle, Vehicle, Customer, Employee, Offer, Sales][ENTITIES[entity]]
+        obj = [Car, Motorcycle, Customer, Employee, Offer, Sales, Person, Vehicle][ENTITIES[entity]]
         query = db.session.query(obj).filter_by(id = id).first()
         if query is None:
             raise Exception(f"No entity with id {id} was found!")
@@ -29,14 +32,16 @@ def searchController(entity: str, id: int):
     return response
 
 @app.route("/insert/<string:entity>", methods = ["POST"])
+@jwt_required(optional = True)
 def insertController(entity: str):
     try:
         data = request.get_json(force= True)
-        if entity == "Sale":
-            d = data["data"].split("-")
-            data["data"] = date(int(d[2]), int(d[1]), int(d[0]))
-            obj = Sales(**data)
+        if entity == "Sale" or entity == "Offer":
+            print(date.today())
+            data["date"] = date.today()
+            obj = [Car, Motorcycle, Customer, Employee, Offer, Sales][ENTITIES[entity]](**data)
         elif entity == "Employee" or entity == "Customer":
+            data["password"] = encrypt(data["password"])
             obj = [Car, Motorcycle, Customer, Employee, Offer, Sales][ENTITIES[entity]](**data)
             if not obj.verify_cpf():
                 raise Exception("Invalid CPF!")
@@ -51,9 +56,10 @@ def insertController(entity: str):
     return response
 
 @app.route("/delete/<string:entity>/<int:id>", methods = ["DELETE"])
+@jwt_required()
 def deleteController(entity: str, id: int):
     try:
-        obj = [Car, Motorcycle, Vehicle, Customer, Employee, Offer, Sales][ENTITIES[entity]]
+        obj = [Car, Motorcycle, Customer, Employee, Offer, Sales, Person, Vehicle][ENTITIES[entity]]
         number_deleted = db.session.query(obj).filter_by(id = id).delete()
         if number_deleted == 0:
             raise Exception("Entity not found!")
@@ -66,6 +72,7 @@ def deleteController(entity: str, id: int):
     return response
 
 @app.route("/update/<string:entity>/<int:id>", methods = ["PUT"])
+@jwt_required()
 def updateController(entity: str, id: int):
     try:
         data = request.get_json(force= True)
@@ -105,6 +112,7 @@ def salvar_imagem():
     return response
 
 @app.route('/get_image/<int:id>')
+@jwt_required(optional = True)
 def get_image(id):
     try:
         imgfile = db.session.query(Vehicle).get(id)
@@ -118,6 +126,7 @@ def get_image(id):
         return response
 
 @app.route("/getData")
+@jwt_required(optional = True)
 def getData():
     try:
         vehicles = [v.json() for v in db.session.query(Vehicle).all()]

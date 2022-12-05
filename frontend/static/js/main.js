@@ -20,17 +20,20 @@ $(function () {
             let customer_id = JSON.parse(sessionStorage.session).id;
             let vehicle_id = injectionProtection($("#sendinterest").attr("rel"));
 
+            let today = new Date();
+
             let data = JSON.stringify({
                 adress: adress,
                 adress_number: adress_number,
                 email: email,
                 phone: phone,
                 customer_id: customer_id,
-                vehicle_id: vehicle_id
+                vehicle_id: vehicle_id,
+                date: `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`
             });
 
             $.ajax({
-                url: "http://localhost:5000/addInterest",
+                url: "http://localhost:5000/insert/Offer",
                 method: "POST",
                 dataType: "json",
                 contentType: "application/json",
@@ -65,7 +68,7 @@ $(function () {
         });
 
         $.ajax({
-            url: "http://localhost:5000/addCustomer",
+            url: "http://localhost:5000/insert/Customer",
             method: "POST",
             dataType: "json",
             contentType: "application/json",
@@ -80,13 +83,14 @@ $(function () {
     });
 
     $.ajax({
-        url: "http://192.168.1.3:5000/listCars",
+        url: "http://localhost:5000/query/Car",
         method: "GET",
         dataType: "json",
         success: function (response) {
+            console.log(response);
             response.details.map(c => {
                 let mainDiv = $("<div></div>").addClass("card").attr("style", "width: 18rem;");
-                let image = $("<img>").attr("src", "http://192.168.1.3:5000/get_image/" + c.id);
+                let image = $("<img>").attr("src", "http://localhost:5000/get_image/" + c.id);
                 let bodyDiv = $("<div></div>").addClass("card-body");
                 let cardTitle = $("<h5></h5>").addClass("card-title").text(c.name);
                 let cardTextName = $("<p></p>").addClass("card-text").text("R$ " + c.price);
@@ -109,13 +113,13 @@ $(function () {
     });
 
     $.ajax({
-        url: "http://192.168.1.3:5000/listMotorcycles",
+        url: "http://localhost:5000/query/Motorcycle",
         method: "GET",
         dataType: "json",
         success: function (response) {
             response.details.map(m => {
                 let mainDiv = $("<div></div>").addClass("card").attr("style", "width: 18rem;");
-                let image = $("<img>").attr("src", "http://192.168.1.3:5000/get_image/" + m.id);
+                let image = $("<img>").attr("src", "http://localhost:5000/get_image/" + m.id);
                 let bodyDiv = $("<div></div>").addClass("card-body");
                 let cardTitle = $("<h5></h5>").addClass("card-title").text(m.name);
                 let cardTextName = $("<p></p>").addClass("card-text").text("R$ " + m.price);
@@ -149,15 +153,15 @@ $(function () {
         });
 
         $.ajax({
-            url: "http://localhost:5000/validate_login",
+            url: "http://localhost:5000/login",
             method: "POST",
             contentType: "application/json",
             dataType: "json",
             data: data,
             success: function (response) {
                 if (response.result === "ok") {
-                    sessionStorage.setItem("session", JSON.stringify(response.details));
-                    sessionStorage.setItem("token", response.token);
+                    sessionStorage.setItem("session", JSON.stringify(response.customer));
+                    sessionStorage.setItem("token", response.access_token);
                     alert("Login approved");
                     $('#loginmodal').modal('hide');
                 } else {
